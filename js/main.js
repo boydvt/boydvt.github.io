@@ -515,7 +515,6 @@ var loadPortfolioSinglePage = function(id, href) {
 			}, 700 );
 		}
 	});
-
 	return false;
 
 };
