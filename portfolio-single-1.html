@@ -364,7 +364,7 @@
               </div>
             </div>
                                                        <!-- Judul  --> 
-            <h2 class="heading-portfolio-single-h2" style="font-weight: bold; font-family: Arial, sans-serif; font-size: 45px;">&nbsp;&nbsp;&nbsp;AKSI INDOSIAR</h2>
+            <h2 class="heading-portfolio-single-h2" style="font-weight: bold; font-family: Arial, sans-serif; font-size: 37px;">&nbsp;Aksi Indosiar</h2>
                                                       <!-- Kotak 4  -->  
               <div id="posts" class="row gutter-isotope-item">
                 <div class="item branding packaging illustration col-sm-6 col-md-6 col-lg-4 isotope-mb-2 ">
@@ -394,7 +394,12 @@
               <div class="item branding packaging illustration col-sm-6 col-md-6 col-lg-4 isotope-mb-2 ">
                 <a href="https://drive.google.com/file/d/13IDYhL6xPrzK0XrfMf6THK3nQR-mX-eJ/preview" class="portfolio-item isotope-item gsap-reveal-img"data-fancybox="gallery"data-caption="Ajisaka Live Indosiar"data-type="iframe">
                     <div class="overlay">
-                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <img src="images/svg2/006-playbutton.svg"   alt="Play Button" 
+                      style="width: 60px; height: 60px; opacity: 0.8; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: all 0.3s ease;"
+                      onmouseover="this.style.transform='translate(-50%, -50%) scale(1.1)';"
+                      onmouseout="this.style.transform='translate(-50%, -50%) scale(1)';"
+                      ontouchstart="this.style.transform='translate(-50%, -50%) scale(1.1)';"
+                      ontouchend="this.style.transform='translate(-50%, -50%) scale(1)';">
                       <div class="portfolio-item-content">
                         <h3>Ajisaka Live Indosiar</h3>
                       <p></p>
@@ -487,7 +492,31 @@
   <script src="js/scripts-dist.js"></script>
   <script src="js/main.js"></script>
 
-
+  <script>
+    document.querySelectorAll('.overlay').forEach(function(overlay) {
+      const img = overlay.querySelector('img');
+      const playButton = overlay.querySelector('.play-button'); // Asumsi svg play button kasih class "play-button"
+    
+      overlay.addEventListener('touchstart', function(e) {
+        img.style.filter = 'brightness(70%)';
+        img.style.transform = 'scale(1.05)';
+        if (playButton) {
+          playButton.style.opacity = '0.9'; // munculin tombol play
+        }
+        e.preventDefault(); // untuk kurangi delay
+      });
+    
+      overlay.addEventListener('touchend', function() {
+        img.style.filter = 'brightness(100%)';
+        img.style.transform = 'scale(1)';
+        if (playButton) {
+          playButton.style.opacity = '0'; // sembunyikan tombol play
+        }
+      });
+    });
+    </script>
+    
+    
 </body>
 
 </html>
