@@ -573,7 +573,7 @@
           <div class="row justify-content-between">
             
             <div class="col-md-6">
-              <form method="post" action="send-email.php" class="form-outline-style-v1" id="contactForm">
+              <form method="POST"action="" class="form-outline-style-v1" id="contactForm">
                 <div class="form-group row mb-0">
 
                   <div class="col-lg-6 form-group gsap-reveal">
@@ -600,22 +600,56 @@
               <div id="form-message-success">
                 Your message was sent, thank you!
               </div>
+              <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
+              <script type="text/javascript">
+                (function() {
+                  emailjs.init('hcUO-46eXNh5hV4zL');
+                })();
+            
+                document.getElementById('contactForm').addEventListener('submit', function(event) {
+                  event.preventDefault();
+            
+                  const button = this.querySelector('input[type="submit"]');
+                  const originalText = button.value;
+                  button.value = 'Sending...';
+                  button.disabled = true;
+            
+                  emailjs.sendForm('service_95zi0pe', 'template_106s6zr', this)
+                    .then(function() {
+                      document.getElementById('form-message-success').style.display = 'block';
+                      document.getElementById('form-message-warning').style.display = 'none';
+                      button.value = originalText;
+                      button.disabled = false;
+                      document.getElementById('contactForm').reset();
+                    }, function(error) {
+                      document.getElementById('form-message-warning').innerHTML = '❌ Error: ' + error.text;
+                      document.getElementById('form-message-warning').style.display = 'block';
+                      document.getElementById('form-message-success').style.display = 'none';
+                      button.value = originalText;
+                      button.disabled = false;
+                    });
+                });
+              </script>
             </div>
 
             <div class="col-md-4">
               <div class="contact-info-v1">
                 <div class="gsap-reveal d-block">
                   <span class="d-block contact-info-label">Email</span>
-                  <a href="#" class="contact-info-val">boydavit12@gmail.com</a>
+                  <a href="mailto:boydavit12@gmail.com?subject=Halo%20Boy&body=Saya%20ingin%20bertanya%20lebih%20lanjut" class="contact-info-val">boydavit12@gmail.com</a>
                 </div>
                 <div class="gsap-reveal d-block">
                   <span class="d-block contact-info-label">Phone</span>
-                  <a href="#" class="contact-info-val">+62 882 2569 9119</a>
+                  <a href="https://wa.me/6288225699119" target="_blank" class="contact-info-val">+62 882 2569 9119</a>
                 </div>
                 <div class="gsap-reveal d-block">
                   <span class="d-block contact-info-label">Address</span>
-                  <address class="contact-info-val">Manggahang Baleendah. <br> Bandung, Indonesia</address>
+                  <a href="https://maps.app.goo.gl/PzLAGzCDDrdxcjTs8" target="_blank" class="contact-info-val">
+                    <address>
+                      Manggahang Baleendah. <br> Bandung, Indonesia
+                    </address>
+                  </a>                  
                 </div>
               </div>
             </div>
