@@ -82,6 +82,20 @@
       @keyframes heroIntroIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     </style>
 
+    <!-- Popup video (Fancybox): ukuran pas di semua layar, termasuk HP tegak & miring -->
+    <style>
+      .fancybox-slide--iframe { padding: 44px 8px 12px !important; }
+      /* video landscape 16:9 */
+      .fancybox-slide--iframe .fancybox-content {
+        width: min(94vw, calc(84vh * 16 / 9)) !important; height: min(84vh, calc(94vw * 9 / 16)) !important;
+        max-width: none !important; max-height: none !important; margin: 0 !important; background: #000 !important; }
+      /* video portrait 9:16 (Reels) */
+      .fancybox-slide--iframe.tlk-portrait .fancybox-content {
+        width: min(92vw, calc(84vh * 9 / 16)) !important; height: min(84vh, calc(92vw * 16 / 9)) !important; }
+      /* dokumen PDF (CV) */
+      .fancybox-slide--iframe.tlk-doc .fancybox-content { width: min(94vw, 1000px) !important; height: 88vh !important; background: #fff !important; }
+    </style>
+
   </head>
   <body data-spy="scroll" data-target=".site-nav-target" data-offset="200">
 
@@ -478,7 +492,7 @@
               <p class="lead gsap-reveal">Complited a Bachelor's degree in Film and Television Visual Design program at Indonesia University of Education, working towards a <a href="#">Bachelor of Arts (S.Sn)</a>. I have also been given the opportunity to intern at <a href="#">SCM (Surya Citra Media)</a> as a motion and graphic designer, where I have gained one year of hands-on experience.</p>
               <p class="mb-4 gsap-reveal">Experienced in Video Editing and Cinematography, i have a keep interest in various creative fields such as Graphic Design, 3D Artist, Television Production, Commercial Advertising, Company Profile Videos, Creative Content Creation, etc.</p>
               <p class="gsap-reveal">
-                <a href="files/Resume_Boyke_Devit_Adistya_EN.pdf" class="btn btn-outline-pill btn-custom-light js-cv-preview" data-fancybox="cv" data-type="iframe" data-caption="Resume &mdash; Boyke Devit Adistya">
+                <a href="files/Resume_Boyke_Devit_Adistya_EN.pdf" class="btn btn-outline-pill btn-custom-light js-cv-preview" data-fancybox="cv" data-type="iframe" data-options='{"slideClass":"tlk-doc"}' data-caption="Resume &mdash; Boyke Devit Adistya">
                   Download my CV</a></p>
             </div>
           </div>
@@ -852,6 +866,7 @@
     <script src="js/scripts-dist.js"></script>
     <script src="js/main.js"></script>
     <script src="js/lanyard.js"></script>
+    <script src="js/yt-autoplay.js"></script>
 
     <!-- Preview CV: di HP pakai Google Docs Viewer (browser HP tidak bisa menampilkan PDF di dalam popup) -->
     <script>
