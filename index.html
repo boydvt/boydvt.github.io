@@ -21,6 +21,67 @@
     <!-- Theme Style -->
     <link rel="stylesheet" href="css/style.css">
 
+    <!-- Portfolio versi HP: 2 kolom + jarak lebih rapat (tampilan laptop tidak berubah) -->
+    <style>
+      @media (max-width: 575.98px) {
+        #portfolio-section .gutter-isotope-item { margin-left: -5px !important; margin-right: -5px !important; }
+        #portfolio-section .gutter-isotope-item > [class*="col-"] { padding-left: 5px !important; padding-right: 5px !important; }
+        #portfolio-section .isotope-mb-2 { margin-bottom: 10px !important; }
+        #posts > .item { flex: 0 0 50%; max-width: 50%; width: 50%; }
+        #posts .portfolio-item .portfolio-item-content { bottom: 8px; left: 8px; right: 8px; }
+        #posts .portfolio-item .portfolio-item-content h3 { font-size: 13px; line-height: 1.2; }
+        #posts .portfolio-item .portfolio-item-content p { font-size: 10px; }
+        #posts .portfolio-item .wrap-icon { transform: scale(.8); }
+      }
+    </style>
+
+    <!-- Lanyard 3D di hero (script: js/lanyard.js) -->
+    <style>
+      .lanyard-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; pointer-events: none; overflow: hidden; }
+      .lanyard-canvas { position: absolute; top: 0; left: 0; }
+      .lanyard-card { position: absolute; top: 0; left: 0; transform-origin: 50% 0; pointer-events: auto; cursor: grab;
+        touch-action: none; user-select: none; -webkit-user-select: none; will-change: transform; }
+      .lanyard-card.is-dragging { cursor: grabbing; }
+      .lc-clip { position: absolute; top: -16px; left: 50%; width: 30px; height: 24px; margin-left: -15px; z-index: 5; border-radius: 4px;
+        background: linear-gradient(90deg, #6b6f76, #e9ecf0 45%, #9aa0a8 60%, #4c5056); box-shadow: 0 2px 4px rgba(0,0,0,.5); }
+      .lc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+      .lc-face { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #111;
+        -webkit-backface-visibility: hidden; backface-visibility: hidden;
+        box-shadow: 0 18px 40px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.28); }
+      .lc-back { transform: rotateY(180deg); }
+      .lc-face img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+      .lc-face::before { content: ""; position: absolute; top: 8px; left: 50%; width: 26%; height: 7px; margin-left: -13%; z-index: 4;
+        border-radius: 6px; background: rgba(0,0,0,.75); box-shadow: inset 0 1px 2px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.25); }
+      .lc-holo, .lc-shine { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+      .lc-holo { mix-blend-mode: color-dodge; opacity: var(--holo-o, .2);
+        background: linear-gradient(var(--holo-r, 120deg), rgba(255,0,170,0) 10%, rgba(255,0,170,.45) 28%, rgba(0,255,230,.45) 45%,
+          rgba(255,240,0,.4) 60%, rgba(120,80,255,.45) 75%, rgba(255,0,170,0) 90%); background-size: 200% 200%; }
+      .lc-shine { mix-blend-mode: soft-light;
+        background: linear-gradient(115deg, rgba(255,255,255,0) 35%, rgba(255,255,255,.9) 48%, rgba(255,255,255,.2) 55%, rgba(255,255,255,0) 65%);
+        background-size: 260% 100%; background-position: var(--shine-x, 50%) 0; }
+    </style>
+
+    <!-- Intro kiri hero (hanya PC) -->
+    <style>
+      .hero-intro { display: none; }
+      @media (min-width: 992px) {
+        .hero-intro { display: block; position: absolute; z-index: 11; top: min(28%, calc(50% - 190px));
+          left: 5.5vw; width: min(31vw, 560px);
+          animation: heroIntroIn .9s .4s ease both; }
+        .hero-intro-tag { display: inline-block; font-size: 11px; letter-spacing: .1em; white-space: nowrap; text-transform: uppercase;
+          color: rgba(255,255,255,.65); margin-bottom: 18px; }
+        .hero-intro-text { color: rgba(255,255,255,.88); font-size: 17px; line-height: 1.8; margin: 0 0 32px; }
+        .hero-intro-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 6px;
+          font-size: 14px; font-weight: 500; text-decoration: none !important; transition: all .25s ease; }
+        .hero-btn-solid { background: #fff; color: #111 !important; border: 1px solid #fff; }
+        .hero-btn-solid:hover { background: transparent; color: #fff !important; }
+        .hero-btn-outline { background: transparent; color: #fff !important; border: 1px solid rgba(255,255,255,.55); }
+        .hero-btn-outline:hover { background: #fff; color: #111 !important; border-color: #fff; }
+      }
+      @keyframes heroIntroIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    </style>
+
   </head>
   <body data-spy="scroll" data-target=".site-nav-target" data-offset="200">
 
@@ -113,6 +174,16 @@
         </div>
 
 
+        <!-- Intro kiri (hanya PC, disembunyikan di HP & tablet) -->
+        <div class="hero-intro">
+          <span class="hero-intro-tag">Video Editor &middot; Cinematographer &middot; Graphic Designer</span>
+          <p class="hero-intro-text">I create cinematic videos, clean edits, and eye-catching visuals &mdash; from company profiles and short films to motion graphics for SCTV &amp; Indosiar. Freelancing since 2018.</p>
+          <div class="hero-intro-btns">
+            <a href="#portfolio-section" class="hero-btn hero-btn-solid smoothscroll">View Projects <span aria-hidden="true">&rarr;</span></a>
+            <a href="#about-section" class="hero-btn hero-btn-outline smoothscroll">Download CV <span aria-hidden="true">&#10515;</span></a>
+          </div>
+        </div>
+
         <a href="#portfolio-section" class="mouse-wrap smoothscroll">
           <span class="mouse">
             <span class="scroll"></span>
@@ -154,7 +225,19 @@
 
 
             
+            <!-- MAIN PORTO: Showreel 2026 (YouTube, selebar 3 kartu, autoplay saat terlihat) -->
+            <div class="row gutter-isotope-item">
+              <div class="col-12 isotope-mb-2">
+                <div class="showreel-featured" id="showreel2026" data-yt="LRNAjLI3uhk">
+                  <div class="showreel-label">
+                    <h3>Showreel 2026</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div id="posts" class="row gutter-isotope-item">
+
               <div class="item web branding col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
                 <a href="portfolio-single-1.html" class="portfolio-item ajax-load-page isotope-item gsap-reveal-img" data-id="1">
                     <div class="overlay">
@@ -168,9 +251,9 @@
                   </a>
               </div>
               <div class="item branding packaging illustration col-sm-6 col-md-6 col-lg-4 isotope-mb-2 ">
-                <a href="images/Telkom/work_telkom_md.jpg" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="gallery" data-caption="Shoe Rebranding">
+                <a href="portfolio-single-2.html" class="portfolio-item ajax-load-page isotope-item gsap-reveal-img" data-id="2">
                     <div class="overlay">
-                      <span class="wrap-icon icon-photo2"></span>
+                      <span class="wrap-icon icon-link2"></span>
                       <div class="portfolio-item-content">
                         <h3>Telkom Education</h3>
                         <p>Video Editing, Cinematography, Graphic Design</p>
@@ -195,9 +278,9 @@
 
               <div class="item web packaging col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
 
-                <a href="images/3D_Animation/work_3DMeaningofS_full.jpg" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="gallery" data-caption="Watch">
+                <a href="https://www.youtube.com/watch?v=RuqMNcL4S9Y" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="strides" data-caption="Short Movie Meaning of Strides">
                     <div class="overlay">
-                      <span class="wrap-icon icon-photo2"></span>
+                      <span class="wrap-icon icon-play_circle_filled"></span>
                       <div class="portfolio-item-content">
                         <h3>Short Movie Meaning of Strides </h3>
                         <p>3D Animation</p>
@@ -273,6 +356,77 @@
                   </a>
               </div>
 
+              <!-- 3D Glass: 2 video Google Drive, geser kanan di popup -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="https://drive.google.com/file/d/1MTBSJM463f14H6uqOwlG9dwbabs64GCg/preview" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="glass3d" data-type="iframe" data-caption="3D Glass (1/2)">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>3D Glass</h3>
+                        <p>3D Animation &bull; 2 Video</p>
+                      </div>
+                    </div>
+                    <img src="images/3D_Animation/work_3DGlass_md.jpg" class="img-fluid" alt="3D Glass - 3D Animation" />
+                  </a>
+                <a href="https://drive.google.com/file/d/1jSMqgphhyEq3eOT2FBrlZBULRPQsS5Um/preview" data-fancybox="glass3d" data-type="iframe" data-caption="3D Glass (2/2)" style="display:none;"></a>
+              </div>
+
+              <!-- Born: 1 video Google Drive -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="https://drive.google.com/file/d/1eRdj4eDnRb8Zvx_4ZvJyvfKhnaniTS6j/preview" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="born" data-type="iframe" data-caption="&ldquo;Born&rdquo; Experimental Movie">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>&ldquo;Born&rdquo;</h3>
+                        <p>Experimental Movie</p>
+                      </div>
+                    </div>
+                    <img src="images/work_Born_md.jpg" class="img-fluid" alt="Born - Experimental Movie poster" />
+                  </a>
+              </div>
+
+              <!-- Dark and Live: 1 video Google Drive -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="https://drive.google.com/file/d/1TfGyxz1_T2Kzm0i7Ttt7YKKVN8Kbsd4Z/preview" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="darklive" data-type="iframe" data-caption="Dark and Live &bull; Experimental Movie">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>Dark and Live</h3>
+                        <p>Experimental Movie</p>
+                      </div>
+                    </div>
+                    <img src="images/work_DarkLive_md.jpg" class="img-fluid" alt="Dark and Live - Experimental Movie" />
+                  </a>
+              </div>
+
+              <!-- BPK Penabur: 1 video Google Drive -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="https://drive.google.com/file/d/1guBT7DGKaY8As62Ed-h9XqI_-HyeqYfT/preview" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="penabur" data-type="iframe" data-caption="SD &amp; TK School Profile BPK Penabur">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>SD &amp; TK School Profile BPK Penabur</h3>
+                        <p>School Profile Video</p>
+                      </div>
+                    </div>
+                    <img src="images/work_Penabur_md.jpg" class="img-fluid" alt="SD &amp; TK School Profile BPK Penabur" />
+                  </a>
+              </div>
+
+              <!-- Draw & Dance: 1 video Google Drive -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="https://drive.google.com/file/d/13HnYFrGhuBKXGArZQgQ-MEb6IFy7HYLM/preview" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="drawdance" data-type="iframe" data-caption="Draw &amp; Dance &bull; Short Movie">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>Draw &amp; Dance</h3>
+                        <p>Short Movie</p>
+                      </div>
+                    </div>
+                    <img src="images/work_DrawDance_md.jpg" class="img-fluid" alt="Draw &amp; Dance - Short Movie" />
+                  </a>
+              </div>
+
             </div>
             
           </div>
@@ -324,7 +478,7 @@
               <p class="lead gsap-reveal">Complited a Bachelor's degree in Film and Television Visual Design program at Indonesia University of Education, working towards a <a href="#">Bachelor of Arts (S.Sn)</a>. I have also been given the opportunity to intern at <a href="#">SCM (Surya Citra Media)</a> as a motion and graphic designer, where I have gained one year of hands-on experience.</p>
               <p class="mb-4 gsap-reveal">Experienced in Video Editing and Cinematography, i have a keep interest in various creative fields such as Graphic Design, 3D Artist, Television Production, Commercial Advertising, Company Profile Videos, Creative Content Creation, etc.</p>
               <p class="gsap-reveal">
-                <a href="files/cv_boy_2025.pdf" download class="btn btn-outline-pill btn-custom-light">
+                <a href="files/Resume_Boyke_Devit_Adistya_EN.pdf" class="btn btn-outline-pill btn-custom-light js-cv-preview" data-fancybox="cv" data-type="iframe" data-caption="Resume &mdash; Boyke Devit Adistya">
                   Download my CV</a></p>
             </div>
           </div>
@@ -697,6 +851,75 @@
 
     <script src="js/scripts-dist.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/lanyard.js"></script>
+
+    <!-- Preview CV: di HP pakai Google Docs Viewer (browser HP tidak bisa menampilkan PDF di dalam popup) -->
+    <script>
+      (function () {
+        var a = document.querySelector('.js-cv-preview');
+        if (!a) return;
+        var isMobile = window.matchMedia('(max-width: 767.98px)').matches;
+        if (isMobile && location.protocol === 'https:') {
+          var pdfUrl = new URL(a.getAttribute('href'), location.href).href;
+          a.setAttribute('href', 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(pdfUrl));
+        }
+      })();
+    </script>
+
+    <!-- Showreel 2026: style + autoplay (mute) saat terlihat, pause saat di-scroll lewat -->
+    <style>
+      .showreel-featured { position: relative; width: 100%; padding-top: 56.25%; background: #111; overflow: hidden; }
+      .showreel-featured iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+      .showreel-label { position: absolute; top: 0; left: 0; z-index: 2; padding: 14px 18px; pointer-events: none;
+        background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,0)); width: 100%; transition: opacity .4s; }
+      .showreel-label h3 { color: #fff; margin: 0; font-size: 1.25rem; }
+      .showreel-featured.is-playing .showreel-label { opacity: 0; }
+    </style>
+    <script>
+      (function () {
+        var box = document.getElementById('showreel2026');
+        if (!box) return;
+        var id = box.getAttribute('data-yt');
+        var iframe = null;
+
+        function send(cmd) {
+          if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: cmd, args: [] }), '*');
+          }
+        }
+
+        function start() {
+          if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube.com/embed/' + id +
+              '?autoplay=1&mute=1&loop=1&playlist=' + id +
+              '&playsinline=1&rel=0&modestbranding=1&enablejsapi=1';
+            iframe.title = 'Showreel 2026';
+            iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+            iframe.setAttribute('allowfullscreen', '');
+            box.appendChild(iframe);
+          } else {
+            send('playVideo');
+          }
+          box.classList.add('is-playing');
+        }
+
+        function stop() {
+          send('pauseVideo');
+          box.classList.remove('is-playing');
+        }
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) { start(); } else { stop(); }
+            });
+          }, { threshold: 0.5 }).observe(box);
+        } else {
+          start();
+        }
+      })();
+    </script>
 
   </body>
 </html>
