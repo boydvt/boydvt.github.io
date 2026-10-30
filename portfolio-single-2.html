@@ -142,6 +142,11 @@
             .yt-auto .tlk-play { transition: opacity .4s, transform .3s; }
             .yt-auto.is-playing .tlk-play { opacity: 0; }
             .yt-auto.is-playing img { opacity: 0; transition: opacity .6s .8s; }
+            .yt-auto.yt-failed img { opacity: 1 !important; }
+            .yt-auto.yt-failed .tlk-play { opacity: 1; }
+            .yt-auto.yt-failed .tlk-expand { display: none; }
+            .yt-auto.yt-failed::before { content: "Tonton di YouTube \2197"; position: absolute; z-index: 3; top: 10px; right: 10px;
+              padding: 4px 10px; border-radius: 4px; background: rgba(0,0,0,.65); color: #fff; font-size: 12px; }
             .tlk-yt-open { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 4; }
             .tlk-expand { position: absolute; z-index: 3; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 6px;
               background: rgba(0,0,0,.55); color: #fff; font-size: 18px; line-height: 32px; text-align: center; opacity: .85; }
@@ -352,7 +357,7 @@
 
   <script src="js/scripts-dist.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/yt-autoplay.js"></script>
+  <script src="js/yt-autoplay.js?v=20261030c"></script>
 
 
 </body>
