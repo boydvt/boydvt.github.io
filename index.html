@@ -39,19 +39,38 @@
     <style>
       .lanyard-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; pointer-events: none; overflow: hidden; }
       .lanyard-canvas { position: absolute; top: 0; left: 0; }
-      .lanyard-card { position: absolute; top: 0; left: 0; transform-origin: 50% 0; pointer-events: auto; cursor: grab;
+      .lanyard-card { position: absolute; top: 0; left: 0; transform-origin: 50% 0; pointer-events: auto; cursor: grab; overflow: visible;
         touch-action: none; user-select: none; -webkit-user-select: none; will-change: transform; }
       .lanyard-card.is-dragging { cursor: grabbing; }
-      .lc-clip { position: absolute; top: -16px; left: 50%; width: 30px; height: 24px; margin-left: -15px; z-index: 5; border-radius: 4px;
-        background: linear-gradient(90deg, #6b6f76, #e9ecf0 45%, #9aa0a8 60%, #4c5056); box-shadow: 0 2px 4px rgba(0,0,0,.5); }
-      .lc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+      /* penjepit logam 3D di ujung tali */
+      .lc-clasp { position: absolute; z-index: 7; border-radius: 5px; border: 1px solid #5d636b;
+        background: linear-gradient(180deg, #f7f9fb 0%, #c9ced6 30%, #8e959f 68%, #dfe3e8 100%);
+        box-shadow: inset 0 1px 0 #fff, inset 0 -2px 3px rgba(0,0,0,.35), 0 3px 6px rgba(0,0,0,.55); }
+      .lc-clasp::after { content: ""; position: absolute; top: 22%; left: 16%; right: 16%; bottom: 26%; border-radius: 3px;
+        background: linear-gradient(180deg, #3b3f45, #6b7178); box-shadow: inset 0 1px 2px rgba(0,0,0,.7), 0 1px 0 rgba(255,255,255,.5); }
+      /* cincin logam yang masuk ke lubang kartu */
+      .lc-ring { position: absolute; overflow: visible; pointer-events: none; transition: filter .2s; }
+      /* sisi A di depan kartu, sisi B di belakang kartu (tertutup kartu, terlihat lewat lubang & di atas tepi) */
+      .lc-ring-a { z-index: 6; }
+      .lc-ring-b { z-index: 0; filter: brightness(.6); }
+      .lanyard-card.lc-flipped .lc-ring-a { z-index: 0; filter: brightness(.6); }
+      .lanyard-card.lc-flipped .lc-ring-b { z-index: 6; filter: none; }
+      .lc-inner { position: relative; z-index: 1; width: 100%; height: 100%; transform-style: preserve-3d; transform-origin: var(--hole-x, 50%) 50%; }
       .lc-face { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #111;
         -webkit-backface-visibility: hidden; backface-visibility: hidden;
         box-shadow: 0 18px 40px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.28); }
       .lc-back { transform: rotateY(180deg); }
+      /* lubang tembus di kartu (posisi = lingkaran di desain depan) */
+      .lc-front { -webkit-mask-image: radial-gradient(circle at var(--hole-x) var(--hole-y), transparent var(--hole-r), #000 calc(var(--hole-r) + 1px));
+                  mask-image: radial-gradient(circle at var(--hole-x) var(--hole-y), transparent var(--hole-r), #000 calc(var(--hole-r) + 1px)); }
+      .lc-back { -webkit-mask-image: radial-gradient(circle at var(--hole-xb) var(--hole-y), transparent var(--hole-r), #000 calc(var(--hole-r) + 1px));
+                 mask-image: radial-gradient(circle at var(--hole-xb) var(--hole-y), transparent var(--hole-r), #000 calc(var(--hole-r) + 1px)); }
+      .lc-front::after, .lc-back::after { content: ""; position: absolute; z-index: 6; top: var(--hole-y); width: calc(var(--hole-r) * 2 + 4px);
+        height: calc(var(--hole-r) * 2 + 4px); transform: translate(-50%, -50%); border-radius: 50%;
+        box-shadow: inset 0 0 0 2px rgba(0,0,0,.45), inset 0 2px 3px rgba(0,0,0,.5); pointer-events: none; }
+      .lc-front::after { left: var(--hole-x); }
+      .lc-back::after { left: var(--hole-xb); }
       .lc-face img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
-      .lc-face::before { content: ""; position: absolute; top: 8px; left: 50%; width: 26%; height: 7px; margin-left: -13%; z-index: 4;
-        border-radius: 6px; background: rgba(0,0,0,.75); box-shadow: inset 0 1px 2px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.25); }
       .lc-holo, .lc-shine { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
       .lc-holo { mix-blend-mode: color-dodge; opacity: var(--holo-o, .2);
         background: linear-gradient(var(--holo-r, 120deg), rgba(255,0,170,0) 10%, rgba(255,0,170,.45) 28%, rgba(0,255,230,.45) 45%,
@@ -301,6 +320,7 @@
                       </div>
                     </div>
                     <img src="images/3D_Animation/work_3DMeaningofS_full.jpg" class="lazyload  img-fluid" alt="Images" />
+                    <video class="card-preview" src="images/3D_Animation/preview_strides.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
                   </a>
 
               </div>
@@ -341,6 +361,7 @@
                       </div>
                     </div>
                     <img src="images/3D_Animation/work_Joged_full.jpg" class="lazyload  img-fluid" alt="Images" />
+                    <video class="card-preview" src="images/3D_Animation/preview_zamba.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
                   </a>
               </div>
 
@@ -354,6 +375,7 @@
                       </div>
                     </div>
                     <img src="images/motion/work_Motion_md.jpg" class="lazyload  img-fluid" alt="Images" />
+                    <video class="card-preview" src="images/motion/preview_showreel.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
                   </a>
               </div>
 
@@ -381,6 +403,7 @@
                       </div>
                     </div>
                     <img src="images/3D_Animation/work_3DGlass_md.jpg" class="img-fluid" alt="3D Glass - 3D Animation" />
+                    <video class="card-preview" src="images/3D_Animation/preview_glass.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
                   </a>
                 <a href="https://drive.google.com/file/d/1jSMqgphhyEq3eOT2FBrlZBULRPQsS5Um/preview" data-fancybox="glass3d" data-type="iframe" data-caption="3D Glass (2/2)" style="display:none;"></a>
               </div>
@@ -438,6 +461,66 @@
                       </div>
                     </div>
                     <img src="images/work_DrawDance_md.jpg" class="img-fluid" alt="Draw &amp; Dance - Short Movie" />
+                  </a>
+              </div>
+
+              <!-- 3D Mockup T-shirt: video vertikal -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="videos/tshirt_3d.mp4" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="tshirt3d" data-width="720" data-height="1280" data-caption="3D Mockup T-shirt">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>3D Mockup Tshirt</h3>
+                        <p>3D Animation</p>
+                      </div>
+                    </div>
+                    <img src="images/3D_Animation/work_Tshirt3D_md.jpg" class="img-fluid" alt="3D Mockup Tshirt - 3D Animation" />
+                    <video class="card-preview" src="images/3D_Animation/preview_tshirt.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+                  </a>
+              </div>
+
+              <!-- Firing Sample -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="videos/firing_sample.mp4" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="firing" data-width="1280" data-height="640" data-caption="Firing Sample">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>Firing Sample</h3>
+                        <p>3D Animation</p>
+                      </div>
+                    </div>
+                    <img src="images/3D_Animation/work_Firing_md.jpg" class="img-fluid" alt="Firing Sample - 3D Animation" />
+                    <video class="card-preview" src="images/3D_Animation/preview_firing.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+                  </a>
+              </div>
+
+              <!-- Ninja Wisdom -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="videos/ninja_wisdom.mp4" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="ninja" data-width="1920" data-height="1080" data-caption="Ninja Wisdom">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>Ninja Wisdom</h3>
+                        <p>3D Animation</p>
+                      </div>
+                    </div>
+                    <img src="images/3D_Animation/work_Ninja_md.jpg" class="img-fluid" alt="Ninja Wisdom - 3D Animation" />
+                    <video class="card-preview" src="images/3D_Animation/preview_ninja.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+                  </a>
+              </div>
+
+              <!-- Drive Car -->
+              <div class="item web col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+                <a href="videos/drive_car.mp4" class="portfolio-item isotope-item gsap-reveal-img" data-fancybox="drivecar" data-width="1920" data-height="1080" data-caption="Drive Car">
+                    <div class="overlay">
+                      <span class="wrap-icon icon-play_circle_filled"></span>
+                      <div class="portfolio-item-content">
+                        <h3>Drive Car</h3>
+                        <p>3D Animation</p>
+                      </div>
+                    </div>
+                    <img src="images/3D_Animation/work_DriveCar_md.jpg" class="img-fluid" alt="Drive Car - 3D Animation" />
+                    <video class="card-preview" src="images/3D_Animation/preview_car.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
                   </a>
               </div>
 
@@ -865,10 +948,10 @@
 
     <script src="js/scripts-dist.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/lanyard.js?v=20261030c"></script>
+    <script src="js/lanyard.js?v=20261101i"></script>
     <script src="js/yt-autoplay.js?v=20261030c"></script>
+    <script src="js/card-preview.js?v=20261101j"></script>
     <script src="js/card-tilt.js?v=20261030f"></script>
-    <script src="js/bg-glow.js?v=20261030g"></script>
 
     <!-- Preview CV: di HP pakai Google Docs Viewer (browser HP tidak bisa menampilkan PDF di dalam popup) -->
     <script>
